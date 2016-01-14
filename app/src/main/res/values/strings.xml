@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FindWaldo</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_display_grid">DisplayGrid</string>
+    <string name="find_icon_str">Once you remember the icon, press Continue</string>
+    <string name="continue_button_str">Continue</string>
+    <string name="title_activity_setup">Setup</string>
+    <string name="setuptitletext">Setup Parameters</string>
+    <string name="button01text">OK</string>
+    <string name="button02text">Save</string>
+    <string name="button03text">Exit</string>
+    <string name="paramlabelparttext">Participant code</string>
+    <string name="paramlabelsesstext">Session code</string>
+    <string name="paramlabelblocktext">Block code</string>
+    <string name="paramlabelgrouptext">Group code</string>
+    <string name="paramlabelconditiontext">Condition code</string>
+</resources>
