@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +19,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+/*
+*  viewTouchX, viewTouchY - X, Y start position of the touched view
+*  viewCenterX, viewCenterY - Center of the touched view/grid
+*  touchX, touchY - coordinates of the actual touch
+*
+* **/
 
 public class DisplayGrid extends AppCompatActivity {
 
@@ -76,7 +82,7 @@ public class DisplayGrid extends AppCompatActivity {
         File dataDirectory = new File(Environment.getExternalStorageDirectory() +
                 WORKING_DIRECTORY);
         if (!dataDirectory.exists() && !dataDirectory.mkdirs()) {
-            Log.i("MYDEBUG", "Failed to create directory: " + WORKING_DIRECTORY);
+            Log.e("MYDEBUG", "Failed to create directory: " + WORKING_DIRECTORY);
             Toast.makeText(this, "Couldn't create directory", Toast.LENGTH_SHORT).show();
             System.exit(0);
         }
