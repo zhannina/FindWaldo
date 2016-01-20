@@ -31,7 +31,7 @@ public class DisplayGrid extends AppCompatActivity {
 
     final String WORKING_DIRECTORY = "/FindWaldoData/";
     final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,"
-            + "Time(ms),GridTilePosition,PassedDrawableID,SelectedDrawableID,PassedIconName,SelectedIconName,StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY,WrongHit\n";
+            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,SelectedDrawableID,PassedIconName,SelectedIconName,StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY,WrongHit\n";
     public static final String MyPREFERENCES = "MyPrefs";
 
     int counter = 0;
@@ -172,8 +172,8 @@ public class DisplayGrid extends AppCompatActivity {
                 if (passedPosition == position) {
                     // StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY
                     Toast.makeText(getApplicationContext(), "Correct", Toast.LENGTH_SHORT).show();
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, diff.toString(), position, passedIcon.getDrawableID(),selected.getDrawableID(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),selected.getDrawableID(),
                             passedIcon.getName(),selected.getName(),
                             viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
                     try {
@@ -185,8 +185,8 @@ public class DisplayGrid extends AppCompatActivity {
                     stringBuilder.delete(0, stringBuilder.length());
                     finish();
                 } else {
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, diff.toString(), position, passedIcon.getDrawableID(), selected.getDrawableID(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(), selected.getDrawableID(),
                             passedIcon.getName(), selected.getName(),
                             viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
                     try {
