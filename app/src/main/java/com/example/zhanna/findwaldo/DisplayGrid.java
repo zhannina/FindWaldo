@@ -31,7 +31,7 @@ public class DisplayGrid extends AppCompatActivity {
 
     final String WORKING_DIRECTORY = "/FindWaldoData/";
     final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,"
-            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,SelectedDrawableID,PassedIconName,SelectedIconName,StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY,WrongHit\n";
+            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY,WrongHit\n";
     public static final String MyPREFERENCES = "MyPrefs";
 
     int counter = 0;
@@ -61,11 +61,6 @@ public class DisplayGrid extends AppCompatActivity {
             passedIcon = (MainActivity.CellContent) extras.getSerializable("iconToFind");
             passedPosition = extras.getInt("positionToPlace");
         }
-        Log.d("AAA CC passedIcon", passedIcon.getName());
-        Log.d("AAA CC passedPosition", "" + passedPosition);
-        for (MainActivity.CellContent c : iconsCopy) {
-            Log.d("FFF BB", c.getName() + " ");
-        }
 
         startTime = System.currentTimeMillis();
 
@@ -74,7 +69,6 @@ public class DisplayGrid extends AppCompatActivity {
         sessionCode = prefs.getString("sessionCode", "");
         groupCode = prefs.getString("groupCode", "");
         conditionCode = prefs.getString("conditionCode", "");
-        Log.d("prefs", participantCode + sessionCode + groupCode + conditionCode);
 
         gridView = (GridView) findViewById(R.id.gridViewCustom);
         // Create the Custom Adapter Object
@@ -152,8 +146,7 @@ public class DisplayGrid extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MainActivity.CellContent selected = iconsCopy.get(position); // iconsCopy[position] is another icon, should just remove selected item from here
-                Log.d("AAA DD selectedIcon", selected.getName() + " " + position + " " + passedPosition);
-                Log.d("AAA DD position", position+"");
+
                 // get shared prefs: x and y
                 float touchX = prefs.getFloat("TouchX", 0);
                 float touchY = prefs.getFloat("TouchY", 0);
@@ -163,7 +156,6 @@ public class DisplayGrid extends AppCompatActivity {
                 // coordinates of the iconview
                 float viewTouchX = view.getX();
                 float viewTouchY = view.getY();
-                Log.d("coordinates", ""+viewTouchX+" "+viewTouchY);
 
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
@@ -174,32 +166,31 @@ public class DisplayGrid extends AppCompatActivity {
                 stringBuilder = new StringBuilder();
                 if (passedPosition == position) {
                     // StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY
-                    Toast.makeText(getApplicationContext(), "Correct", Toast.LENGTH_SHORT).show();
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),selected.getDrawableID(),
-                            passedIcon.getName(),selected.getName(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
+                            passedIcon.getName(),
                             viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
                     try {
                         bufferedWriter.write(stringBuilder.toString(), 0, stringBuilder.length());
                         bufferedWriter.flush();
                     } catch (IOException e) {
-                        Log.d("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
+                        Log.e("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
                     }
                     stringBuilder.delete(0, stringBuilder.length());
                     finish();
                 } else {
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
                             sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(), selected.getDrawableID(),
-                            passedIcon.getName(), selected.getName(),
+                            passedIcon.getName(),
                             viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
                     try {
                         bufferedWriter.write(stringBuilder.toString(), 0, stringBuilder.length());
                         bufferedWriter.flush();
                     } catch (IOException e) {
-                        Log.d("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
+                        Log.e("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
                     }
                     stringBuilder.delete(0, stringBuilder.length());
-                    Toast.makeText(getApplicationContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Incorrect", Toast.LENGTH_SHORT).show();
                     counter++;
                 }
             }
@@ -212,7 +203,7 @@ public class DisplayGrid extends AppCompatActivity {
         try {
             bufferedWriter.close();
         } catch (IOException e) {
-            Log.d("MYDEBUG", "ERROR CLOSING THE DATA FILES: e = " + e);
+            Log.e("MYDEBUG", "ERROR CLOSING THE DATA FILES: e = " + e);
         }
         finish();
     }

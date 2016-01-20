@@ -22,7 +22,6 @@ public class Setup extends AppCompatActivity {
     String[] conditionCode = {"C01", "C02"};
 
     SharedPreferences sharedPrefs;
-    SharedPreferences.Editor editor;
 
     public static final String MyPREFERENCES = "MyPrefs";
 
@@ -76,7 +75,7 @@ public class Setup extends AppCompatActivity {
         editor.commit();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
-        //finish();
+
     }
 
     public void clickSave(View view) {

@@ -40,9 +40,7 @@ public class GridViewCustomAdapter extends ArrayAdapter {
                 icons.remove(0);
             }
         }
-        for (Integer ii : iconsMap.keySet()) {
-            Log.d("dlfk", ii + " icon:" + iconsMap.get(ii).getName());
-        }
+
     }
 
     public int getCount() {
