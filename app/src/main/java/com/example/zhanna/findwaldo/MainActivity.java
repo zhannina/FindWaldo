@@ -144,9 +144,16 @@ public class MainActivity extends AppCompatActivity {
                     iconName = key.getName();
                     iconNameTextView = (TextView) findViewById(R.id.icon_text_view);
                     iconNameTextView.setText(key.getName());
+                    Log.d("AAA posToFind", "" + posToFind);
+                    Log.d("AAA keyName", "" + key.getName());
+                    Log.d("AAA iconToFind", "" + iconToFind.getName());
                     break findKey;
                 }
                 index++;
+            }
+
+            for (MainActivity.CellContent c : icons) {
+                Log.d("FFF AA", c.getName() + " ");
             }
 
             continueBtn = (Button) findViewById(R.id.continue_btn);
@@ -162,8 +169,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
                     intent.putExtra("iconToFind", iconToFind);
                     intent.putExtra("positionToPlace", posToFind);
-                    intent.putExtra("iconName",iconName);
+                    intent.putExtra("iconName", iconName);
                     startActivity(intent);
+                    Log.d("AAA BB posToFind", "" + posToFind);
+                    Log.d("AAA BB iconToFind", "" + iconToFind.getName());
                 }
             });
         }

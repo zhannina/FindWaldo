@@ -61,8 +61,11 @@ public class DisplayGrid extends AppCompatActivity {
             passedIcon = (MainActivity.CellContent) extras.getSerializable("iconToFind");
             passedPosition = extras.getInt("positionToPlace");
         }
-        Log.d("passedIcon", passedIcon.getName());
-        Log.d("passedPosition", "" + passedPosition);
+        Log.d("AAA CC passedIcon", passedIcon.getName());
+        Log.d("AAA CC passedPosition", "" + passedPosition);
+        for (MainActivity.CellContent c : iconsCopy) {
+            Log.d("FFF BB", c.getName() + " ");
+        }
 
         startTime = System.currentTimeMillis();
 
@@ -148,9 +151,9 @@ public class DisplayGrid extends AppCompatActivity {
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MainActivity.CellContent selected = iconsCopy.get(position);
-                Log.d("selectedIcon", selected.getName() + " " + position + " " + passedPosition);
-                Log.d("Click", "click");
+                MainActivity.CellContent selected = iconsCopy.get(position); // iconsCopy[position] is another icon, should just remove selected item from here
+                Log.d("AAA DD selectedIcon", selected.getName() + " " + position + " " + passedPosition);
+                Log.d("AAA DD position", position+"");
                 // get shared prefs: x and y
                 float touchX = prefs.getFloat("TouchX", 0);
                 float touchY = prefs.getFloat("TouchY", 0);
