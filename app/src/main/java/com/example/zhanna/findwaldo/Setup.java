@@ -105,8 +105,15 @@ public class Setup extends AppCompatActivity {
     }
 
     public void clickExit(View view) {
-        super.onDestroy(); // cleanup
+//        super.onDestroy(); // cleanup
         this.finish(); // terminate
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intentSensorService = new Intent(this, SensorsService.class);
+        stopService(intentSensorService);
+        super.onDestroy();
     }
 
     @Override

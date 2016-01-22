@@ -109,7 +109,7 @@ public class SensorsService extends Service implements SensorEventListener {
         float accY = event.values[1];
         float accZ = event.values[2];
 
-        Log.d("TAG","ACC: " + accX + " - " + accY + " - " + accZ);
+//        Log.d("TAG","ACC: " + accX + " - " + accY + " - " + accZ);
 
         String ts = String.valueOf(TimeUnit.NANOSECONDS.toMillis(event.timestamp));
 
@@ -147,7 +147,7 @@ public class SensorsService extends Service implements SensorEventListener {
         public void onReceive(Context context, Intent intent) {
             int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
 
-            Log.d("TAG","TEMP: " + temperature);
+//            Log.d("TAG","TEMP: " + temperature);
 
             String ts = String.valueOf(System.currentTimeMillis());
 
