@@ -1,9 +1,13 @@
 package com.example.zhanna.findwaldo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +23,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
 
     Button continueBtn;
     ImageView imageToShow;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("FIRSTTIME", true);
         editor.commit();
+
     }
 
     public void initializeHash() {
@@ -167,4 +173,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
 }

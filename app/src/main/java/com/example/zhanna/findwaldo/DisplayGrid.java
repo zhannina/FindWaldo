@@ -29,7 +29,7 @@ import java.util.Date;
 
 public class DisplayGrid extends AppCompatActivity {
 
-    final String WORKING_DIRECTORY = "/FindWaldoData/";
+    public static final String WORKING_DIRECTORY = "/FindWaldoData/";
     final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,Block,"
             + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,ViewCenterX,ViewCenterY,TouchX,TouchY," +
             "IconCenterX,IconCenterY,TextCenterX,TextCenterY," +

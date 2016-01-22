@@ -1,16 +1,23 @@
 package com.example.zhanna.findwaldo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class Setup extends AppCompatActivity {
+
+    private static final int PERMISSIONS_REQUEST = 12;
 
     private Spinner spinParticipant, spinSession, spinGroup, spinCondition, spinBlock;
 
@@ -70,6 +77,7 @@ public class Setup extends AppCompatActivity {
                 .spinnerstyle, blockCode);
         spinBlock.setAdapter(adapterB);
 
+        requestPermissions();
     }
 
     public void clickOK(View view) {
@@ -99,5 +107,51 @@ public class Setup extends AppCompatActivity {
     public void clickExit(View view) {
         super.onDestroy(); // cleanup
         this.finish(); // terminate
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intentSensorService = new Intent(this, SensorsService.class);
+                    startService(intentSensorService);
+
+                } else {
+                    requestPermissions();
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void requestPermissions()
+    {
+        Log.d("TAG", "Whatever1");
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d("TAG","Whatever2");
+
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST);
+
+        }
+        else
+        {
+            Log.d("TAG","Whatever3");
+            Intent intentSensorService = new Intent(this, SensorsService.class);
+            startService(intentSensorService);
+        }
     }
 }
