@@ -11,7 +11,7 @@
     <string name="button03text">Exit</string>
     <string name="paramlabelparttext">Participant code</string>
     <string name="paramlabelsesstext">Session code</string>
-    <string name="paramlabelblocktext">Block code</string>
     <string name="paramlabelgrouptext">Group code</string>
     <string name="paramlabelconditiontext">Condition code</string>
+    <string name="paramlabelblocktext">Block code</string>
 </resources>

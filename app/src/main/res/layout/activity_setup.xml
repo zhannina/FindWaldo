@@ -143,6 +143,23 @@
                     android:gravity="left" />
             </TableRow>
 
+            <TableRow
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/paramLabelBlock"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="@string/paramlabelblocktext"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Spinner
+                    android:id="@+id/paramBlock"
+                    android:layout_weight="1"
+                    android:gravity="left" />
+            </TableRow>
+
         </TableLayout>
     </LinearLayout>
 

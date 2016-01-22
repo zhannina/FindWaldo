@@ -30,8 +30,10 @@ import java.util.Date;
 public class DisplayGrid extends AppCompatActivity {
 
     final String WORKING_DIRECTORY = "/FindWaldoData/";
-    final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,"
-            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY,WrongHit\n";
+    final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,Block,"
+            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,ViewCenterX,ViewCenterY,TouchX,TouchY," +
+            "IconCenterX,IconCenterY,TextCenterX,TextCenterY," +
+            "WrongHitsCount,CorrectHit\n";
     public static final String MyPREFERENCES = "MyPrefs";
 
     int counter = 0;
@@ -40,7 +42,7 @@ public class DisplayGrid extends AppCompatActivity {
     StringBuilder stringBuilder;
 
     SharedPreferences prefs;
-    String participantCode, sessionCode, groupCode, conditionCode;
+    String participantCode, sessionCode, groupCode, conditionCode, blockCode;
 
     GridView gridView;
     GridViewCustomAdapter gridViewCustomAdapter;
@@ -50,6 +52,8 @@ public class DisplayGrid extends AppCompatActivity {
     int passedPosition;
 
     Long startTime, endTime, diff;
+
+    ArrayList<String> errorRows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,14 @@ public class DisplayGrid extends AppCompatActivity {
         }
 
         startTime = System.currentTimeMillis();
+        errorRows = new ArrayList<>();
 
         prefs = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         participantCode = prefs.getString("participantCode", "");
         sessionCode = prefs.getString("sessionCode", "");
         groupCode = prefs.getString("groupCode", "");
         conditionCode = prefs.getString("conditionCode", "");
+        blockCode = prefs.getString("blockCode", "");
 
         gridView = (GridView) findViewById(R.id.gridViewCustom);
         // Create the Custom Adapter Object
@@ -92,7 +98,7 @@ public class DisplayGrid extends AppCompatActivity {
         try {
 
             bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-            if (!prefs.getBoolean("HEADERS", false)) {
+            if (!prefs.getBoolean("HEADERS", false) && blockCode.equals("B01")) {
                 bufferedWriter.append(HEADER, 0, HEADER.length());
                 bufferedWriter.flush();
                 SharedPreferences.Editor editor = prefs.edit();
@@ -150,14 +156,23 @@ public class DisplayGrid extends AppCompatActivity {
                 // get shared prefs: x and y
                 float touchX = prefs.getFloat("TouchX", 0);
                 float touchY = prefs.getFloat("TouchY", 0);
-                // get center of the view (cell of grid)
-                float viewCenterX = view.getWidth() / 2;
-                float viewCenterY = view.getHeight() / 2;
                 // coordinates of the iconview
                 float viewTouchX = view.getX();
                 float viewTouchY = view.getY();
+                // get center of the view (cell of grid)
+                float viewCenterX = view.getWidth() / 2 + viewTouchX;
+                float viewCenterY = view.getHeight() / 2 + viewTouchY;
 
-                Long tsLong = System.currentTimeMillis() / 1000;
+
+                float iconCenterX = view.findViewById(R.id.imageView).getX() + view.findViewById(R.id.imageView).getWidth() / 2 + viewTouchX;
+                float iconCenterY = view.findViewById(R.id.imageView).getY() + view.findViewById(R.id.imageView).getHeight() / 2 + viewTouchY;
+
+                float textCenterX = view.findViewById(R.id.textView).getX() + view.findViewById(R.id.textView).getWidth() / 2 + viewTouchX;
+                float textCenterY = view.findViewById(R.id.textView).getY() + view.findViewById(R.id.textView).getHeight() / 2 + viewTouchY;
+
+
+
+                Long tsLong = System.currentTimeMillis();
                 String ts = tsLong.toString();
                 String date = DateFormat.getDateTimeInstance().format(new Date());
                 endTime = System.currentTimeMillis();
@@ -165,11 +180,35 @@ public class DisplayGrid extends AppCompatActivity {
 
                 stringBuilder = new StringBuilder();
                 if (passedPosition == position) {
+
+                    for (int i = 0; i< errorRows.size(); i++) {
+                        String tempRow = errorRows.get(i);
+
+                        tempRow = tempRow.replace("#1",String.valueOf(viewTouchX));
+                        tempRow = tempRow.replace("#2",String.valueOf(viewTouchY));
+                        tempRow = tempRow.replace("#3",String.valueOf(viewCenterX));
+                        tempRow = tempRow.replace("#4",String.valueOf(viewCenterY));
+                        tempRow = tempRow.replace("#5",String.valueOf(iconCenterX));
+                        tempRow = tempRow.replace("#6",String.valueOf(iconCenterY));
+                        tempRow = tempRow.replace("#7",String.valueOf(textCenterX));
+                        tempRow = tempRow.replace("#8",String.valueOf(textCenterY));
+                        try {
+                            bufferedWriter.write(tempRow, 0, tempRow.length());
+                            bufferedWriter.flush();
+                        } catch (IOException e) {
+                            Log.e("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
+                        }
+                    }
+
+                    errorRows.clear();
+
                     // StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,true\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
                             passedIcon.getName(),
-                            viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
+                            viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,
+                            iconCenterX, iconCenterY, textCenterX, textCenterY,
+                            counter));
                     try {
                         bufferedWriter.write(stringBuilder.toString(), 0, stringBuilder.length());
                         bufferedWriter.flush();
@@ -179,19 +218,19 @@ public class DisplayGrid extends AppCompatActivity {
                     stringBuilder.delete(0, stringBuilder.length());
                     finish();
                 } else {
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%d\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(), selected.getDrawableID(),
-                            passedIcon.getName(),
-                            viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,counter));
-                    try {
-                        bufferedWriter.write(stringBuilder.toString(), 0, stringBuilder.length());
-                        bufferedWriter.flush();
-                    } catch (IOException e) {
-                        Log.e("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
-                    }
+                    counter++;
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,#1,#2,#3,#4,%f,%f,#5,#6,#7,#8,%d,false\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
+                            passedIcon.getName(), touchX, touchY,counter));
+                    errorRows.add(stringBuilder.toString());
+//                    try {
+//                        bufferedWriter.write(stringBuilder.toString(), 0, stringBuilder.length());
+//                        bufferedWriter.flush();
+//                    } catch (IOException e) {
+//                        Log.e("MYDEBUG", "ERROR WRITING TO DATA FILES: e = " + e);
+//                    }
                     stringBuilder.delete(0, stringBuilder.length());
 //                    Toast.makeText(getApplicationContext(), "Incorrect", Toast.LENGTH_SHORT).show();
-                    counter++;
                 }
             }
         });

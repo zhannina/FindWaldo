@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class Setup extends AppCompatActivity {
 
-    private Spinner spinParticipant, spinSession, spinGroup, spinCondition;
+    private Spinner spinParticipant, spinSession, spinGroup, spinCondition, spinBlock;
 
     String[] participantCode = {"P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
             "P09", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20",
@@ -20,6 +20,7 @@ public class Setup extends AppCompatActivity {
     String[] sessionCode = {"S01", "S02"};
     String[] groupCode = {"G01", "G02"};
     String[] conditionCode = {"C01", "C02"};
+    String[] blockCode = {"B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"};
 
     SharedPreferences sharedPrefs;
 
@@ -37,12 +38,14 @@ public class Setup extends AppCompatActivity {
 
         groupCode[0] = sharedPrefs.getString("groupCode", groupCode[0]);
         conditionCode[0] = sharedPrefs.getString("conditionCode", conditionCode[0]);
+        blockCode[0] = sharedPrefs.getString("blockCode", blockCode[0]);
 
         // get references to widget elements
         spinParticipant = (Spinner) findViewById(R.id.paramParticipant);
         spinSession = (Spinner) findViewById(R.id.paramSession);
         spinGroup = (Spinner) findViewById(R.id.paramGroup);
         spinCondition = (Spinner) findViewById(R.id.paramCondition);
+        spinBlock = (Spinner) findViewById(R.id.paramBlock);
 
         // initialise spinner adapters
 
@@ -62,6 +65,10 @@ public class Setup extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterC = new ArrayAdapter<CharSequence>(this, R.layout
                 .spinnerstyle, conditionCode);
         spinCondition.setAdapter(adapterC);
+
+        ArrayAdapter<CharSequence> adapterB = new ArrayAdapter<CharSequence>(this, R.layout
+                .spinnerstyle, blockCode);
+        spinBlock.setAdapter(adapterB);
 
     }
 
@@ -84,6 +91,7 @@ public class Setup extends AppCompatActivity {
         editor.putString("sessionCode", sessionCode[spinSession.getSelectedItemPosition()]);
         editor.putString("groupCode", groupCode[spinGroup.getSelectedItemPosition()]);
         editor.putString("conditionCode", conditionCode[spinCondition.getSelectedItemPosition()]);
+        editor.putString("blockCode", blockCode[spinBlock.getSelectedItemPosition()]);
         editor.commit();
         Toast.makeText(this, "Preferences saved!", Toast.LENGTH_SHORT).show();
     }
