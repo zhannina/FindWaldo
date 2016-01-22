@@ -28,7 +28,7 @@
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="40dp"
+            android:paddingBottom="10dp"
             android:paddingTop="40dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
