@@ -111,9 +111,9 @@ public class SensorsService extends Service implements SensorEventListener {
 
 //        Log.d("TAG","ACC: " + accX + " - " + accY + " - " + accZ);
 
-        String ts = String.valueOf(TimeUnit.NANOSECONDS.toMillis(event.timestamp));
+        String ts = String.valueOf(System.currentTimeMillis());
 
-        String date = DateFormat.getDateTimeInstance().format(new Date(TimeUnit.NANOSECONDS.toMillis(event.timestamp)));
+        String date = DateFormat.getDateTimeInstance().format(new Date());
 
         stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("%s,%s,%f,%f,%f\n", ts, date, accX, accY, accZ));
