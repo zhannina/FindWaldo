@@ -22,9 +22,9 @@ public class Setup extends AppCompatActivity {
     String[] participantCode = {"P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
             "P09", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20",
             "P21", "P22", "P23", "P24", "P25", "P99"};
-    String[] sessionCode = {"S01", "S02"};
-    String[] groupCode = {"G01", "G02"};
-    String[] conditionCode = {"C01", "C02"};
+    String[] sessionCode = {"Index", "Thumb"};
+    String[] groupCode = {"M", "F"};
+    String[] conditionCode = {"Cold", "Warm"};
     String[] blockCode = {"B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"};
 
     SharedPreferences sharedPrefs;
