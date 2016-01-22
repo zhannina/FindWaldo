@@ -157,18 +157,18 @@ public class DisplayGrid extends AppCompatActivity {
                 float touchX = prefs.getFloat("TouchX", 0);
                 float touchY = prefs.getFloat("TouchY", 0);
                 // coordinates of the iconview
-                float viewTouchX = view.getX();
-                float viewTouchY = view.getY();
+                float viewStartX = view.getX();
+                float viewStartY = view.getY();
                 // get center of the view (cell of grid)
-                float viewCenterX = view.getWidth() / 2 + viewTouchX;
-                float viewCenterY = view.getHeight() / 2 + viewTouchY;
+                float viewCenterX = view.getWidth() / 2 + viewStartX;
+                float viewCenterY = view.getHeight() / 2 + viewStartY;
 
 
-                float iconCenterX = view.findViewById(R.id.imageView).getX() + view.findViewById(R.id.imageView).getWidth() / 2 + viewTouchX;
-                float iconCenterY = view.findViewById(R.id.imageView).getY() + view.findViewById(R.id.imageView).getHeight() / 2 + viewTouchY;
+                float iconCenterX = view.findViewById(R.id.imageView).getX() + view.findViewById(R.id.imageView).getWidth() / 2 + viewStartX;
+                float iconCenterY = view.findViewById(R.id.imageView).getY() + view.findViewById(R.id.imageView).getHeight() / 2 + viewStartY;
 
-                float textCenterX = view.findViewById(R.id.textView).getX() + view.findViewById(R.id.textView).getWidth() / 2 + viewTouchX;
-                float textCenterY = view.findViewById(R.id.textView).getY() + view.findViewById(R.id.textView).getHeight() / 2 + viewTouchY;
+                float textCenterX = view.findViewById(R.id.textView).getX() + view.findViewById(R.id.textView).getWidth() / 2 + viewStartX;
+                float textCenterY = view.findViewById(R.id.textView).getY() + view.findViewById(R.id.textView).getHeight() / 2 + viewStartY;
 
 
 
@@ -184,8 +184,8 @@ public class DisplayGrid extends AppCompatActivity {
                     for (int i = 0; i< errorRows.size(); i++) {
                         String tempRow = errorRows.get(i);
 
-                        tempRow = tempRow.replace("#1",String.valueOf(viewTouchX));
-                        tempRow = tempRow.replace("#2",String.valueOf(viewTouchY));
+                        tempRow = tempRow.replace("#1",String.valueOf(viewStartX));
+                        tempRow = tempRow.replace("#2",String.valueOf(viewStartY));
                         tempRow = tempRow.replace("#3",String.valueOf(viewCenterX));
                         tempRow = tempRow.replace("#4",String.valueOf(viewCenterY));
                         tempRow = tempRow.replace("#5",String.valueOf(iconCenterX));
@@ -206,7 +206,7 @@ public class DisplayGrid extends AppCompatActivity {
                     stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,true\n", ts, date, participantCode,
                             sessionCode, groupCode, conditionCode, blockCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
                             passedIcon.getName(),
-                            viewTouchX, viewTouchY, viewCenterX, viewCenterY, touchX, touchY,
+                            viewStartX, viewStartY, viewCenterX, viewCenterY, touchX, touchY,
                             iconCenterX, iconCenterY, textCenterX, textCenterY,
                             counter));
                     try {
