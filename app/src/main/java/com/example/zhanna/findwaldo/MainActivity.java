@@ -24,6 +24,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int PERMISSIONS_REQUEST = 12;
 
     Button continueBtn;
     ImageView imageToShow;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("FIRSTTIME", true);
         editor.commit();
 
+        requestPermissions();
     }
 
     public void initializeHash() {
@@ -130,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(DisplayGrid.MyPREFERENCES, Context.MODE_PRIVATE);
         if (iconsMap.isEmpty() && !prefs.getBoolean("FIRSTTIME", true)) {
+            Intent intentSensorService = new Intent(this, SensorsService.class);
+            stopService(intentSensorService);
             finish();
         } else {
             initializeHash();
@@ -174,7 +178,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    Intent intentSensorService = new Intent(this, SensorsService.class);
+                    startService(intentSensorService);
+
+                } else {
+                    requestPermissions();
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void requestPermissions()
+    {
+//        Log.d("TAG", "Whatever1");
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+//            Log.d("TAG", "Whatever2");
+
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST);
+
+        }
+        else
+        {
+//            Log.d("TAG", "Whatever3");
+            Intent intentSensorService = new Intent(this, SensorsService.class);
+            startService(intentSensorService);
+        }
+    }
 
 
 }

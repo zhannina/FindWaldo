@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 public class Setup extends AppCompatActivity {
 
-    private static final int PERMISSIONS_REQUEST = 12;
-
     private Spinner spinParticipant, spinSession, spinGroup, spinCondition, spinBlock;
 
     String[] participantCode = {"P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
@@ -77,7 +75,7 @@ public class Setup extends AppCompatActivity {
                 .spinnerstyle, blockCode);
         spinBlock.setAdapter(adapterB);
 
-        requestPermissions();
+
     }
 
     public void clickOK(View view) {
@@ -111,54 +109,9 @@ public class Setup extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Intent intentSensorService = new Intent(this, SensorsService.class);
-        stopService(intentSensorService);
+
         super.onDestroy();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Intent intentSensorService = new Intent(this, SensorsService.class);
-                    startService(intentSensorService);
-
-                } else {
-                    requestPermissions();
-
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-    private void requestPermissions()
-    {
-        Log.d("TAG", "Whatever1");
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d("TAG","Whatever2");
-
-            // No explanation needed, we can request the permission.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST);
-
-        }
-        else
-        {
-            Log.d("TAG","Whatever3");
-            Intent intentSensorService = new Intent(this, SensorsService.class);
-            startService(intentSensorService);
-        }
-    }
 }

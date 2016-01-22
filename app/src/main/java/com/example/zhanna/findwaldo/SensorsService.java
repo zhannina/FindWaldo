@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -56,8 +57,15 @@ public class SensorsService extends Service implements SensorEventListener {
 
         batteryReceiver = new BatteryReceiver();
 
-        accFile = new File(dataDirectory, "accelerometer.csv");
-        batFile = new File(dataDirectory, "battery.csv");
+        SharedPreferences prefs = getSharedPreferences(Setup.MyPREFERENCES, Context.MODE_PRIVATE);
+        String participantCode = prefs.getString("participantCode", "");
+        String sessionCode = prefs.getString("sessionCode", "");
+        String groupCode = prefs.getString("groupCode", "");
+        String conditionCode = prefs.getString("conditionCode", "");
+        String base = "FindWaldo-" + participantCode + "-" + sessionCode + "-" +
+                groupCode + "-" + conditionCode;
+        accFile = new File(dataDirectory, base+"-accelerometer.csv");
+        batFile = new File(dataDirectory, base+"-battery.csv");
 
         if(!accFile.exists())
         {
