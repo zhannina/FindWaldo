@@ -26,10 +26,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:paddingTop="70dp"
         android:paddingBottom="30dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true">
     <!--android:layout_below="@+id/find_icon_text"-->
+        <!--android:paddingTop="70dp"-->
+
 
         <ImageView
             android:id="@+id/icon_img"

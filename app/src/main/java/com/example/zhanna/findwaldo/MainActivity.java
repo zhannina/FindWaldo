@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         SharedPreferences prefs = getSharedPreferences(DisplayGrid.MyPREFERENCES, Context.MODE_PRIVATE);
         if (iconsMap.isEmpty() && !prefs.getBoolean("FIRSTTIME", true)) {
             Intent intentSensorService = new Intent(this, SensorsService.class);
