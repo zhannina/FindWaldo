@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    Handler handler;
     @Override
     protected void onResume() {
         super.onResume();
@@ -160,20 +164,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            continueBtn = (Button) findViewById(R.id.continue_btn);
+//            continueBtn = (Button) findViewById(R.id.continue_btn);
 
             iconsMap.remove(temp);
 
-            continueBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                public void run() {
                     Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
                     intent.putExtra("iconToFind", iconToFind);
                     intent.putExtra("positionToPlace", posToFind);
                     intent.putExtra("iconName", iconName);
                     startActivity(intent);
                 }
-            });
+
+            }, 4000);
+
+//            continueBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
+//                    intent.putExtra("iconToFind", iconToFind);
+//                    intent.putExtra("positionToPlace", posToFind);
+//                    intent.putExtra("iconName", iconName);
+//                    startActivity(intent);
+//                }
+//            });
         }
 
     }
