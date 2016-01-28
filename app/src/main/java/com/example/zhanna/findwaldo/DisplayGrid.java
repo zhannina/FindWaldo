@@ -31,7 +31,8 @@ public class DisplayGrid extends AppCompatActivity {
 
     public static final String WORKING_DIRECTORY = "/FindWaldoData/";
     final String HEADER = "TimeStamp,Date,Participant,Session,Group,Condition,Block,"
-            + "Time(ms),ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,ViewCenterX,ViewCenterY,TouchX,TouchY," +
+            + "Time(ms),TimeToRemember(ms)," +
+            "ActualGridPosition,SelectedGridPosition,PassedDrawableID,PassedIconName,StartViewTouchX,StartViewTouchY,ViewCenterX,ViewCenterY,TouchX,TouchY," +
             "IconCenterX,IconCenterY,TextCenterX,TextCenterY," +
             "WrongHitsCount,CorrectHit\n";
     public static final String MyPREFERENCES = "MyPrefs";
@@ -51,7 +52,7 @@ public class DisplayGrid extends AppCompatActivity {
     ArrayList<MainActivity.CellContent> iconsCopy = new ArrayList<MainActivity.CellContent>(MainActivity.icons);
     int passedPosition;
 
-    Long startTime, endTime, diff;
+    Long startTime, endTime, diff, timeToRemember;
 
     ArrayList<String> errorRows;
 
@@ -72,6 +73,7 @@ public class DisplayGrid extends AppCompatActivity {
         if (extras != null) {
             passedIcon = (MainActivity.CellContent) extras.getSerializable("iconToFind");
             passedPosition = extras.getInt("positionToPlace");
+            timeToRemember = extras.getLong("timeToRemember");
         }
 
         startTime = System.currentTimeMillis();
@@ -83,6 +85,7 @@ public class DisplayGrid extends AppCompatActivity {
         groupCode = prefs.getString("groupCode", "");
         conditionCode = prefs.getString("conditionCode", "");
         blockCode = prefs.getString("blockCode", "");
+
 
         gridView = (GridView) findViewById(R.id.gridViewCustom);
         // Create the Custom Adapter Object
@@ -211,8 +214,8 @@ public class DisplayGrid extends AppCompatActivity {
                     errorRows.clear();
 
                     // StartViewTouchX,StartViewTouchY,IconCenterX,IconCenterY,TouchX,TouchY
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,true\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,true\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(),timeToRemember.toString(), passedPosition, position, passedIcon.getDrawableID(),
                             passedIcon.getName(),
                             viewStartX, viewStartY, viewCenterX, viewCenterY, touchX, touchY,
                             iconCenterX, iconCenterY, textCenterX, textCenterY,
@@ -227,8 +230,8 @@ public class DisplayGrid extends AppCompatActivity {
                     finish();
                 } else {
                     counter++;
-                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,#1,#2,#3,#4,%f,%f,#5,#6,#7,#8,%d,false\n", ts, date, participantCode,
-                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(), passedPosition, position, passedIcon.getDrawableID(),
+                    stringBuilder.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%s,%s,#1,#2,#3,#4,%f,%f,#5,#6,#7,#8,%d,false\n", ts, date, participantCode,
+                            sessionCode, groupCode, conditionCode, blockCode, diff.toString(),timeToRemember.toString(), passedPosition, position, passedIcon.getDrawableID(),
                             passedIcon.getName(), touchX, touchY,counter));
                     errorRows.add(stringBuilder.toString());
 //                    try {

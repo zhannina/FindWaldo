@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
     CellContent iconToFind;
     int posToFind;
     String iconName;
-    TextView iconNameTextView;
+    TextView iconNameTextView, findIconText;
 
     public static HashMap<CellContent, Integer> iconsMap = new HashMap<>();
+
+    Long startTime, endTime, diff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
 
         requestPermissions();
+
     }
 
     public void initializeHash() {
@@ -130,10 +133,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    Handler handler;
+//    Handler handler;
     @Override
     protected void onResume() {
         super.onResume();
+        continueBtn = (Button) findViewById(R.id.continue_btn);
+        iconNameTextView = (TextView) findViewById(R.id.icon_text_view);
+        imageToShow = (ImageView) findViewById(R.id.icon_img);
+        findIconText = (TextView) findViewById(R.id.find_icon_text);
+
+        continueBtn.setVisibility(View.VISIBLE);
+        iconNameTextView.setVisibility(View.VISIBLE);
+        imageToShow.setVisibility(View.VISIBLE);
+        findIconText.setVisibility(View.VISIBLE);
+
+        startTime = System.currentTimeMillis();
 
         SharedPreferences prefs = getSharedPreferences(DisplayGrid.MyPREFERENCES, Context.MODE_PRIVATE);
         if (iconsMap.isEmpty() && !prefs.getBoolean("FIRSTTIME", true)) {
@@ -154,10 +168,8 @@ public class MainActivity extends AppCompatActivity {
                     posToFind = iconsMap.get(key);
                     iconToFind = key;
                     temp = key;
-                    imageToShow = (ImageView) findViewById(R.id.icon_img);
                     imageToShow.setImageResource(key.getDrawableID());
                     iconName = key.getName();
-                    iconNameTextView = (TextView) findViewById(R.id.icon_text_view);
                     iconNameTextView.setText(key.getName());
                     break findKey;
                 }
@@ -165,33 +177,62 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-//            continueBtn = (Button) findViewById(R.id.continue_btn);
-
             iconsMap.remove(temp);
 
-            handler = new Handler();
-            handler.postDelayed(new Runnable() {
-
-                public void run() {
-                    Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
-                    intent.putExtra("iconToFind", iconToFind);
-                    intent.putExtra("positionToPlace", posToFind);
-                    intent.putExtra("iconName", iconName);
-                    startActivity(intent);
-                }
-
-            }, 4000);
-
-//            continueBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
+//            handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//
+//                public void run() {
 //                    Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
 //                    intent.putExtra("iconToFind", iconToFind);
 //                    intent.putExtra("positionToPlace", posToFind);
 //                    intent.putExtra("iconName", iconName);
 //                    startActivity(intent);
 //                }
-//            });
+//
+//            }, 1000);
+
+            continueBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    endTime = System.currentTimeMillis();
+                    diff = endTime-startTime;
+
+
+                    //WITHOUT BLANK SCREEN
+                    Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
+                    intent.putExtra("iconToFind", iconToFind);
+                    intent.putExtra("positionToPlace", posToFind);
+                    intent.putExtra("iconName", iconName);
+                    intent.putExtra("timeToRemember", diff);
+                    startActivity(intent);
+
+                    Log.d("timeToRemember", ""+diff);
+
+                    //BLANK SCREEN
+//                    continueBtn.setVisibility(View.INVISIBLE);
+//                    iconNameTextView.setVisibility(View.INVISIBLE);
+//                    imageToShow.setVisibility(View.INVISIBLE);
+//                    findIconText.setVisibility(View.INVISIBLE);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            Intent intent = new Intent(getBaseContext(), DisplayGrid.class);
+//                            intent.putExtra("iconToFind", iconToFind);
+//                            intent.putExtra("positionToPlace", posToFind);
+//                            intent.putExtra("iconName", iconName);
+//                            intent.putExtra("timeToRemember", diff);
+//                            startActivity(intent);
+//
+//                        }
+//                    },
+//                    300);
+
+
+                }
+            });
         }
 
     }

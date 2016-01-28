@@ -10,26 +10,27 @@
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
 
-    <!--<TextView-->
-        <!--android:id="@+id/find_icon_text"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:paddingTop="10dp"-->
-        <!--android:paddingBottom="50dp"-->
-        <!--android:textSize="20dp"-->
-        <!--android:text="@string/find_icon_str"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--/>-->
+    <TextView
+        android:id="@+id/find_icon_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="50dp"
+        android:textSize="20dp"
+        android:text="@string/find_icon_str"
+        android:gravity="center_horizontal"
+        />
 
     <LinearLayout
         android:id="@+id/icon_and_text"
+        android:layout_below="@+id/find_icon_text"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:paddingBottom="30dp"
         android:gravity="center_horizontal"
         android:layout_centerVertical="true">
-    <!--android:layout_below="@+id/find_icon_text"-->
+
         <!--android:paddingTop="70dp"-->
 
 
@@ -53,14 +54,14 @@
 
     </LinearLayout>
 
-    <!--<Button-->
-        <!--android:id="@+id/continue_btn"-->
-        <!--android:padding="5dp"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_below="@+id/icon_and_text"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:text="@string/continue_button_str"/>-->
+    <Button
+        android:id="@+id/continue_btn"
+        android:padding="5dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/icon_and_text"
+        android:layout_centerHorizontal="true"
+        android:text="@string/continue_button_str"/>
 
 
 </RelativeLayout>
